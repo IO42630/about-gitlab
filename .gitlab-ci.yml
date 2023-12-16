@@ -1,5 +1,7 @@
 stages:
     - build
+    - test
+    - deploy
 
 variables:
     # Define global variables here
@@ -17,14 +19,35 @@ cache:
         - .m2/repository
         - target/
 
+# this is the job name, not a reserved keyword
 build_job_1:
     stage: build
     script:
         # Commands to execute in this job
-        - mvn $MAVEN_CLI_OPTS clean compile
+        - mvn $MAVEN_CLI_OPTS clean
     tags:
         - maven, jdk17
+
+build_job_2:
+    stage: build
+    script:
+        - mvn $MAVEN_CLI_OPTS compile
+    needs:
+        - "build_job_1"
+    tags:
+        - maven, jdk17
+
+test_job_1:
+    stage: test
+    script:
+        - echo "Testing..."
+
+deploy_job_1:
+    stage: deploy
+    script:
+        - echo "Deploying..."
 
 # Questions for later:
 # - I've seem more stages, how does that work?
 # - How does caching work?
+# - What does when do?
