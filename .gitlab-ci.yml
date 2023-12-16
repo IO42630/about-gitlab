@@ -2,10 +2,13 @@ stages:
     - build
 
 variables:
+    # Define global variables here
     MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
     MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
 before_script:
+    # Commands to run before each job
+    - echo "Hello, $GITLAB_USER_LOGIN!"
     - export MAVEN_CLI_OPTS
     - export MAVEN_OPTS
 
@@ -14,9 +17,14 @@ cache:
         - .m2/repository
         - target/
 
-build:
+build_job_1:
     stage: build
     script:
+        # Commands to execute in this job
         - mvn $MAVEN_CLI_OPTS clean compile
     tags:
         - maven, jdk17
+
+# Questions for later:
+# - I've seem more stages, how does that work?
+# - How does caching work?

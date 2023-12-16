@@ -1,0 +1,7 @@
+= GITLAB
+:stylesheet: ../shared/adoc-styles.css
+:toc:
+:toclevels: 4
+
+
+In GitLab CI, a pipeline consists of one or more stages, and each stage contains one or more jobs. Jobs in the same stage can run concurrently, while stages run sequentially.
