@@ -26,9 +26,9 @@ cache:
 setup_job_1:
     stage: setup
     script:
-        - ╔══════════════════════╗
-        - ║   🚀 Setting up the Build.  ║
-        - ╚═════════════════════════════╝
+        - echo ╔═════════════════════════════╗ > /dev/null
+        - echo ║   🚀 Setting up the Build.  ║ > /dev/null
+        - echo ╚═════════════════════════════╝ > /dev/null
         - apk --no-cache add nodejs npm
         - cd frontend
         - npm install
