@@ -2,18 +2,28 @@ stages:
     - setup
     - build
     - test
-    - deploy
+    - docker
 
 variables:
     # Define global variables here
     MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
     MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+    DOCKER_REGISTRY_URL: "http://192.168.1.7:9020"
+    DOCKER_IMAGE_NAME: "about-gitlab"
+    DOCKER_IMAGE_VERSION: "0.0"
+    DOCKER_IMAGE_TAG: "$DOCKER_IMAGE_VERSION:$DOCKER_IMAGE_VERSION"
+    NEXUS_REPO: "repository/docker-nexus"
+
 
 before_script:
-    # Commands to run before each job
+    # Commands to run before EACH job
     - echo "Hello, $GITLAB_USER_LOGIN!"
     - export MAVEN_CLI_OPTS
     - export MAVEN_OPTS
+
+after_script:
+    # Commands to run after EACH job
+    - echo "End of job"
 
 cache:
     # Caching is a mechanism to speed up your CI/CD pipeline by reusing dependencies between pipeline runs.
@@ -57,12 +67,19 @@ test_job_1:
     tags:
         - maven
 
-deploy_job_1:
-    stage: deploy
+
+docker_job_1:
+    stage: docker
     script:
-        - echo "Deploying..."
+        - apk add --no-cache docker-cli
+        - cd docker
+        - echo "Building..."
+        - docker build -t $DOCKER_IMAGE_TAG .
+        - docker tag $DOCKER_IMAGE_TAG $DOCKER_REGISTRY_URL/$NEXUS_REPO/$DOCKER_IMAGE_TAG
+        - docker push $DOCKER_REGISTRY_URL/$NEXUS_REPO/$DOCKER_IMAGE_TAG
     tags:
         - maven
+
 
 # Questions for later:
 # - I've seem more stages, how does that work?
