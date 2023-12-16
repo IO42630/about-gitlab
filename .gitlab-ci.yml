@@ -26,9 +26,6 @@ cache:
 setup_job_1:
     stage: setup
     script:
-        - @echo -e "\033[1m ╔═════════════════════════════╗\033[0m"
-        - @echo -e "\033[1m ║   🚀 Setting up the Build.  ║\033[0m"
-        - @echo -e "\033[1m ╚═════════════════════════════╝\033[0m"
         - apk --no-cache add nodejs npm
         - cd frontend
         - npm install
