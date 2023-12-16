@@ -1,4 +1,5 @@
 stages:
+    - setup
     - build
     - test
     - deploy
@@ -15,9 +16,29 @@ before_script:
     - export MAVEN_OPTS
 
 cache:
+    # Caching is a mechanism to speed up your CI/CD pipeline by reusing dependencies between pipeline runs.
     paths:
         - .m2/repository
+        - frontend/node_modules/
         - target/
+
+
+setup_job_1:
+    stage: setup
+    script:
+        - echo "Setting up..."
+        - echo -e "
+            \033[1m╔══════════════════════╗
+            ║   🚀 Setting up the    ║
+            ║  legendary environment ║
+            ╚══════════════════════╝\033[0m
+            "
+
+        - apk --no-cache add nodejs npm
+        - cd frontend
+        - npm install
+    tags:
+        - maven, jdk17
 
 # this is the job name, not a reserved keyword
 build_job_1:
@@ -55,3 +76,5 @@ deploy_job_1:
 # - I've seem more stages, how does that work?
 # - How does caching work?
 # - What does when do?
+# - So tags are OR? One is enough?
+# - What exaclty determines when a new docker runner is created? (it seems expensive)
