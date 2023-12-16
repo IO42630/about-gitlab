@@ -27,12 +27,9 @@ setup_job_1:
     stage: setup
     script:
         - echo "Setting up..."
-        - echo -e "
-            \033[1m╔══════════════════════╗
-            ║   🚀 Setting up the    ║
-            ║  legendary environment ║
-            ╚══════════════════════╝\033[0m
-            "
+        - echo -e "\033[1m╔══════════════════════╗"
+        - echo -e "║   🚀 Setting up the Build.  ║"
+        - echo -e "╚═════════════════════════════╝\033[0m
 
         - apk --no-cache add nodejs npm
         - cd frontend
